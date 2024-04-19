@@ -80,6 +80,7 @@ void CPlayer::checkCollisionHeightMap(XMFLOAT3& xmf3Shift, bool bUpdateVelocity)
 	float newHeight = checkHeight.CalTerrainHeight();
 	if (playerPosition.y < newHeight)
 	{
+		SetPlaySpeedChange(0.f);
 		playerPosition.y = newHeight;
 		xmf3Shift = Vector3::Subtract(playerPosition, GetPosition());
 	}
@@ -188,7 +189,6 @@ void CPlayer::Update(float fTimeElapsed)
 	float fDeceleration = (m_fFriction * fTimeElapsed);
 	if (fDeceleration > fLength) fDeceleration = fLength;
 	m_xmf3Velocity = Vector3::Add(m_xmf3Velocity, Vector3::ScalarProduct(m_xmf3Velocity, -fDeceleration, true));
-
 }
 
 CCamera* CPlayer::OnChangeCamera(DWORD nNewCameraMode, DWORD nCurrentCameraMode)
@@ -275,8 +275,6 @@ CAirplanePlayer::CAirplanePlayer(ID3D12Device* pd3dDevice, ID3D12GraphicsCommand
 	PrepareAnimate();
 
 	CreateShaderVariables(pd3dDevice, pd3dCommandList);
-
-	
 }
 
 CAirplanePlayer::~CAirplanePlayer()
